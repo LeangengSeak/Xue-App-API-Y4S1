@@ -1,0 +1,9 @@
+import bcrypt from "bcrypt";
+
+export const hashValue = async (
+  value: string,
+  saltRounds: number = 12
+): Promise<string> => await bcrypt.hash(value, saltRounds);
+
+export const comparePassword = async (value: string, hashedValue: string) =>
+  await bcrypt.compare(value, hashedValue);

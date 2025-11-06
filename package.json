@@ -1,0 +1,13 @@
+{
+  "name": "microservices-root",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "services/*"
+  ],
+  "scripts": {
+    "install:all": "npm install",
+    "build:all": "npm run build --workspaces",
+    "start": "echo 'Use docker compose up --build to start all services'"
+  }
+}
