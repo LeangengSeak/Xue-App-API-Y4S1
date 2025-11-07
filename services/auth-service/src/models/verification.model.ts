@@ -35,12 +35,8 @@ const verificationCodeSchema = new Schema<VerificationCodeDocument>({
   },
 });
 
-// Hash the verification code before saving so only the hash is stored in DB.
 verificationCodeSchema.pre("save", async function (next) {
-  // `this` is the document being saved
-  // Only hash if the code field was set/modified and doesn't look already hashed
   if (this.isModified("code")) {
-    // Use a reasonable saltRounds default from the bcrypt helper (it uses 12)
     (this as any).code = await hashValue((this as any).code as string);
   }
   next();

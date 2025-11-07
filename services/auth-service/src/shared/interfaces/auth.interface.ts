@@ -11,6 +11,7 @@ export interface LoginDto {
 }
 
 export interface resetPasswordDto {
+  email: string;
   password: string;
   verificationCode: string;
 }
