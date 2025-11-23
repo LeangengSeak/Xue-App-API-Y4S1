@@ -6,21 +6,13 @@ const appConfig = () => ({
   SERVICE: {
     AUTH_URL: getEnv("AUTH_URL", "http://localhost:4001"),
     USER_URL: getEnv("USER_URL", "http://localhost:4002"),
+    CONTENT_URL: getEnv("CONTENT_URL", "http://localhost:4003"),
+    READ_URL: getEnv("READ_URL", "http://localhost:4004"),
+    SUBSCRIPTION_URL: getEnv("SUBSCRIPTION_URL", "http://localhost:4005"),
+    // PAYMENT_URL: getEnv("PAYMENT_URL", "http://localhost:4006"),
   },
   PORT: getEnv("PORT", "4000"),
   BASE_PATH: getEnv("BASE_PATH", "/api/v1"),
-  // JWT: {
-  //   SECRET: getEnv("JWT_SECRET"),
-  //   EXPIRES_IN: getEnv("JWT_EXPIRES_IN", "1d"),
-  //   REFRESH_SECRET: getEnv("JWT_REFRESH_SECRET"),
-  //   REFRESH_EXPIRES_IN: getEnv("JWT_REFRESH_EXPIRES_IN", "7d"),
-  // },
-  // MAILER_SENDER: getEnv("MAILER_SENDER"),
-  // SENDING_EMAIL_ADDRESS: getEnv("SENDING_EMAIL_ADDRESS"),
-  // SENDING_EMAIL_PASSWORD: getEnv("SENDING_EMAIL_PASSWORD"),
-  // CLOUDINARY_CLOUD_NAME: getEnv("CLOUDINARY_CLOUD_NAME"),
-  // CLOUDINARY_API_KEY: getEnv("CLOUDINARY_API_KEY"),
-  // CLOUDINARY_API_SECRET: getEnv("CLOUDINARY_API_SECRET"),
 });
 
 export const config = appConfig();

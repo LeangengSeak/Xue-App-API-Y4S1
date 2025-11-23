@@ -14,6 +14,8 @@ const appConfig = () => ({
   MAILER_SENDER: getEnv("MAILER_SENDER"),
   SMTP_USER: getEnv("SMTP_USER"),
   SMTP_PASS: getEnv("SMTP_PASS"),
+  USER_SERVICE_URL: getEnv("USER_SERVICE_URL", "http://localhost:4002"),
+  SERVICE_TOKEN: getEnv("SERVICE_TOKEN"),
 });
 
 export const config = appConfig();

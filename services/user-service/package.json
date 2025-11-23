@@ -8,16 +8,31 @@
     "start": "node dist/index.js"
   },
   "dependencies": {
+    "node-fetch": "^2.6.7",
+    "axios": "^1.13.2",
+    "bcrypt": "^6.0.0",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.19.2",
-    "typescript": "^5.9.3"
+    "nodemailer": "^7.0.10",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
+    "typescript": "^5.9.3",
+    "zod": "^4.1.12"
   },
   "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/date-fns": "^2.6.3",
     "@types/dotenv": "^8.2.3",
     "@types/express": "^5.0.5",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/mongoose": "^5.11.97",
     "@types/node": "^24.9.2",
-    "ts-node-dev": "^2.0.0"
+    "@types/nodemailer": "^7.0.3",
+    "@types/passport": "^1.0.17",
+    "@types/passport-jwt": "^4.0.1",
+    "ts-node-dev": "^2.0.0",
+    "@types/node-fetch": "^2.6.13"
   }
 }

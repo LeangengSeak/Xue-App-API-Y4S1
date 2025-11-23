@@ -12,8 +12,8 @@ import {
 } from "../shared/validators/auth.validator";
 import { LoginDto } from "../shared/interfaces/auth.interface";
 import { HTTPSTATUS } from "../config/http.config";
-import { sendError } from "../shared/utils/response";
 import { UserService } from "../services/user.service";
+import { ProfileClient } from "../services/profile.client";
 import {
   NotFoundException,
   UnauthorizedException,
@@ -22,10 +22,12 @@ import {
 export class AuthController {
   constructor(
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private profileClient?: ProfileClient
   ) {
     this.authService = authService;
     this.userService = userService;
+    this.profileClient = profileClient;
   }
   public register = asyncHandler(
     async (req: Request, res: Response): Promise<any> => {
@@ -169,9 +171,21 @@ export class AuthController {
 
       const user = await this.userService.getUserById(userId);
 
-      return res
-        .status(HTTPSTATUS.OK)
-        .json({ status: "success", message: "User retrieved", data: user });
+      let profile = null;
+      try {
+        if (this.profileClient) {
+          profile = await this.profileClient.getProfileSummary(userId);
+        }
+      } catch (err) {
+        // don't fail /me if profile service is down; include null profile
+        profile = null;
+      }
+
+      return res.status(HTTPSTATUS.OK).json({
+        status: "success",
+        message: "User retrieved",
+        data: { user, profile },
+      });
     }
   );
 }

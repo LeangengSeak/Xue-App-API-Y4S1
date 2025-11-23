@@ -13,9 +13,21 @@ app.get("/", (req, res) => {
   res.send("API Gateway running");
 });
 
-// Mount typed proxy middlewares from ./proxy
 app.use(`${API_VERSION}/auth`, createServiceProxy(AUTH_SERVICE_URL));
-app.use(`${API_VERSION}/users`, createServiceProxy(USER_SERVICE_URL));
+app.use(`${API_VERSION}/user`, createServiceProxy(USER_SERVICE_URL));
+app.use(
+  `${API_VERSION}/content`,
+  createServiceProxy(config.SERVICE.CONTENT_URL)
+);
+app.use(`${API_VERSION}/read`, createServiceProxy(config.SERVICE.READ_URL));
+app.use(
+  `${API_VERSION}/subscription`,
+  createServiceProxy(config.SERVICE.SUBSCRIPTION_URL)
+);
+// app.use(
+//   `${API_VERSION}/payment`,
+//   createServiceProxy(config.SERVICE.PAYMENT_URL)
+// );
 
 const PORT = config.PORT;
 

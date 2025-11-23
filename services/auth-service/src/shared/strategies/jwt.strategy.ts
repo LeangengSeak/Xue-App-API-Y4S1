@@ -9,6 +9,7 @@ import { ErrorCode } from "../enums/error-code.enum";
 import { config } from "../../config/app.config";
 import { UserService } from "../../services/user.service";
 import { NextFunction, Request, Response } from "express";
+import SessionModel from "../../models/session.model";
 
 const userService = new UserService();
 
@@ -37,6 +38,21 @@ export const setupJwtStrategy = (passport: PassportStatic) => {
       try {
         const user = await userService.getUserById(payload.userId);
         if (!user) return done(null, false);
+
+        // Verify the session still exists and is not expired. This ensures logout
+        // (which deletes the session) immediately invalidates access tokens.
+        const session = await SessionModel.findById(payload.sessionId).lean();
+        if (!session) return done(null, false);
+
+        if (session.expiredAt && session.expiredAt.getTime() < Date.now()) {
+          // Optionally cleanup expired session
+          try {
+            await SessionModel.findByIdAndDelete(payload.sessionId as any);
+          } catch (e) {
+            // ignore cleanup errors
+          }
+          return done(null, false);
+        }
 
         req.sessionId = payload.sessionId;
 

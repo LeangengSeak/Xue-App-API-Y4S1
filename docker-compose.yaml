@@ -58,5 +58,41 @@ services:
     depends_on:
       - mongo
 
+  read-service:
+    build:
+      context: ./services/read-service
+      dockerfile: Dockerfile
+    container_name: read-service
+    ports:
+      - "${READ_SERVICE_PORT:-4004}:4004"
+    env_file:
+      - ./services/read-service/.env
+    depends_on:
+      - mongo
+
+  content-service:
+    build:
+      context: ./services/content-service
+      dockerfile: Dockerfile
+    container_name: content-service
+    ports:
+      - "${CONTENT_SERVICE_PORT:-4003}:4003"
+    env_file:
+      - ./services/content-service/.env
+    depends_on:
+      - mongo
+
+  subscription-service:
+    build:
+      context: ./services/subscription-service
+      dockerfile: Dockerfile
+    container_name: subscription-service
+    ports:
+      - "${SUBSCRIPTION_SERVICE_PORT:-4005}:4005"
+    env_file:
+      - ./services/subscription-service/.env
+    depends_on:
+      - mongo
+
 volumes:
   mongo-data:

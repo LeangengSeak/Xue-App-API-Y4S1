@@ -1,0 +1,27 @@
+{
+  "name": "read-service",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "build": "tsc && cp package.json dist/",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.7",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "mongoose": "^8.19.2",
+    "typescript": "^5.9.3",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^8.2.3",
+    "@types/date-fns": "^2.6.3",
+    "@types/express": "^5.0.5",
+    "@types/mongoose": "^5.11.97",
+    "@types/node-fetch": "^2.6.13",
+    "@types/node": "^24.9.2",
+    "ts-node-dev": "^2.0.0"
+  }
+}
