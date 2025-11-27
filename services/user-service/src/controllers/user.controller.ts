@@ -9,6 +9,7 @@ import {
   updateEntitlementsSchema,
   incrementSchema,
   markReadSchema,
+  wordsIncrementSchema,
 } from "../shared/validators/user.validator";
 
 export class UserController {
@@ -200,6 +201,24 @@ export class UserController {
       const updated = await this.userService.incrementMarkRead(
         userId,
         contentId
+      );
+
+      return res.status(HTTPSTATUS.OK).json({ profile: updated });
+    }
+  );
+
+  public wordsIncrement = asyncHandler(
+    async (req: Request, res: Response) => {
+      const userId = req.params.userId as string;
+      const { contentId, words, characters } = wordsIncrementSchema.parse(
+        req.body
+      );
+
+      const updated = await this.userService.incrementWords(
+        userId,
+        contentId,
+        words || 0,
+        characters || 0
       );
 
       return res.status(HTTPSTATUS.OK).json({ profile: updated });

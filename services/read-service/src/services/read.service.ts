@@ -49,6 +49,19 @@ export class ReadService {
       contentId: new Types.ObjectId(contentId),
     }).lean();
 
+    // Calculate words/characters read delta from provided lessonProgress
+    let totalWordsFromPayload = 0;
+    let totalCharsFromPayload = 0;
+    if (Array.isArray(payload.lessonProgress)) {
+      for (const lp of payload.lessonProgress) {
+        if (typeof lp.wordsRead === "number") totalWordsFromPayload += lp.wordsRead;
+        if (typeof lp.charactersRead === "number") totalCharsFromPayload += lp.charactersRead;
+      }
+      // persist totals on the ReadProgress document
+      update.wordsRead = totalWordsFromPayload;
+      update.charactersRead = totalCharsFromPayload;
+    }
+
     const res = await ReadProgress.findOneAndUpdate(
       {
         userId: new Types.ObjectId(userId),
@@ -82,6 +95,28 @@ export class ReadService {
           } catch (err) {
             // ignore
           }
+        }
+      }
+    } catch (err) {}
+
+    // After updating progress, inform user-service about words/characters learned
+    try {
+      const prevWords = existing?.wordsRead || 0;
+      const prevChars = existing?.charactersRead || 0;
+      const deltaWords = Math.max(0, (update.wordsRead || prevWords) - prevWords);
+      const deltaChars = Math.max(0, (update.charactersRead || prevChars) - prevChars);
+      if (deltaWords > 0 || deltaChars > 0) {
+        try {
+          await fetch(`${USER_SERVICE_URL}/${userId}/profile/words-increment`, {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+              "x-service-token": SERVICE_TOKEN,
+            },
+            body: JSON.stringify({ contentId, words: deltaWords, characters: deltaChars }),
+          });
+        } catch (err) {
+          // ignore user-service increment failure for now
         }
       }
     } catch (err) {}

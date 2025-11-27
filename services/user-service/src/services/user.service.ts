@@ -152,6 +152,32 @@ export class UserService {
     await profile.save();
     return profile.toObject();
   }
+
+  public async incrementWords(
+    authUserId: string,
+    contentId: string,
+    words = 0,
+    characters = 0
+  ) {
+    let profile = await Profile.findOne({
+      authUserId: new Types.ObjectId(authUserId),
+    });
+    if (!profile) {
+      profile = await Profile.create({
+        authUserId: new Types.ObjectId(authUserId),
+      });
+    }
+
+    if (typeof words === "number" && words > 0) {
+      profile.wordsLearned = (profile.wordsLearned || 0) + words;
+    }
+    if (typeof characters === "number" && characters > 0) {
+      profile.charactersLearned = (profile.charactersLearned || 0) + characters;
+    }
+
+    await profile.save();
+    return profile.toObject();
+  }
 }
 
 export default UserService;

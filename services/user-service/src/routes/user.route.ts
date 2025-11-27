@@ -51,4 +51,10 @@ userRoutes.patch(
   userController.markreadIncrement
 );
 
+userRoutes.patch(
+  "/:userId/profile/words-increment",
+  requireServiceToken,
+  userController.wordsIncrement
+);
+
 export default userRoutes;

@@ -4,12 +4,12 @@ import { UserDocument } from "../../models/auth.model";
 import { config } from "../../config/app.config";
 
 export type AccessTPayload = {
-  userId: UserDocument["_id"];
-  sessionId: SessionDocument["_id"];
+  userId: string;
+  sessionId: string;
 };
 
 export type RefreshTPayload = {
-  sessionId: SessionDocument["_id"];
+  sessionId: string;
 };
 
 type SignOptsAndSecret = SignOptions & {

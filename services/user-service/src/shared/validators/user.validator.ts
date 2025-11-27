@@ -76,6 +76,14 @@ export const markReadSchema = z
   })
   .strict();
 
+export const wordsIncrementSchema = z
+  .object({
+    contentId: z.string().min(1),
+    words: z.number().int().nonnegative().optional(),
+    characters: z.number().int().nonnegative().optional(),
+  })
+  .strict();
+
 export default {
   createProfileSchema,
   updateProfileSchema,
@@ -83,4 +91,5 @@ export default {
   updateEntitlementsSchema,
   incrementSchema,
   markReadSchema,
+  wordsIncrementSchema,
 };

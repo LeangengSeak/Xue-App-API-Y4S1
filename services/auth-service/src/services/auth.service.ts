@@ -131,12 +131,12 @@ export class AuthService {
     });
 
     const accessToken = signJwtToken({
-      userId: user._id,
-      sessionId: session._id,
+      userId: user.id,
+      sessionId: session.id,
     });
 
     const refreshToken = signJwtToken(
-      { sessionId: session._id },
+      { sessionId: session.id },
       refreshTokenSignOptions
     );
 
@@ -245,12 +245,12 @@ export class AuthService {
     }
 
     const newRefreshToken = sessionRequireRefresh
-      ? signJwtToken({ sessionId: session._id }, refreshTokenSignOptions)
+      ? signJwtToken({ sessionId: session.id }, refreshTokenSignOptions)
       : undefined;
 
     const accessToken = signJwtToken({
-      userId: session.userId,
-      sessionId: session._id,
+      userId: String(session.userId),
+      sessionId: session.id,
     });
 
     return { accessToken, newRefreshToken };
